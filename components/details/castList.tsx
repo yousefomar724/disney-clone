@@ -29,7 +29,9 @@ const CastList = ({ casts }: Props) => {
                 className="rounded-md items-end"
               />
             </div>
-            <p className="text-center text-xs">{name || original_name}</p>
+            {profile_path && (
+              <p className="text-center text-xs">{name || original_name}</p>
+            )}
           </div>
         )
       })}

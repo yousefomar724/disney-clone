@@ -4,8 +4,11 @@ import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { FormEvent, useEffect, useRef, useState } from 'react'
+import ThumbanilCheck from '../components/hero/thumbanilCheck'
 import Thumbnail from '../components/hero/thumbnail'
+import ThumbnailAdd from '../components/hero/thumbnailAdd'
 import Header from '../components/topbar/header'
+import { useGlobalContext } from '../context'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context)
@@ -18,9 +21,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const Search = () => {
   const { data: session } = useSession()
+  const { favorites } = useGlobalContext()
   const router = useRouter()
   const searchEndPoint =
-    `https://api.themoviedb.org/3/search/movie?api_key=` +
+    `https://api.themoviedb.org/3/search/multi?api_key=` +
     process.env.MOVIES_API_KEY
 
   // Input Focus
@@ -62,7 +66,6 @@ const Search = () => {
     }
     getData()
   }, [filters])
-
   const loadMore = () => {
     setFilters({
       ...filters,
@@ -92,6 +95,7 @@ const Search = () => {
       router.push('/')
     }
   }, [session])
+  console.log(results)
   return (
     <>
       <Head>
@@ -124,7 +128,20 @@ const Search = () => {
         </div>
         <div className="flex flex-wrap justify-center items-center gap-6 overflow-y-hidden p-2 -m-2">
           {results?.map((item: any) => {
-            return <Thumbnail key={item.id} data={item} route="movie" />
+            return (
+              <Thumbnail
+                key={item.id}
+                data={item}
+                route={item.media_type}
+                icon={
+                  favorites?.some((m) => m.id === item.id) ? (
+                    <ThumbanilCheck />
+                  ) : (
+                    <ThumbnailAdd item={item} />
+                  )
+                }
+              />
+            )
           })}
         </div>
         {LoadMoreBtn}

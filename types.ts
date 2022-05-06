@@ -30,7 +30,7 @@ export type Movie = {
   original_title: string
   overview: string
   popularity: number
-  poster_path: string
+  poster_path?: string
   release_date: Date
   title: string
   video: boolean
@@ -42,6 +42,7 @@ export type Movie = {
   videos?: any
   original_name?: string
   status?: string
+  name?: string
 }
 
 export type User = {

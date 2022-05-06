@@ -72,7 +72,7 @@ const Slider = ({ upcomingMovies }: Props) => {
                   <div className="flex items-center space-x-3 md:space-x-5">
                     <SliderBtn text="Go to Movie page" route={`/movie/${id}`} />
                     <DetailsBtn title="Add Review">
-                      {favorites?.some((m) => m.id === slide.id) ? (
+                      {favorites?.some((m) => m?.id === slide.id) ? (
                         <ThumbanilCheck />
                       ) : (
                         <ThumbnailAdd item={slide} />

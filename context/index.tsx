@@ -25,12 +25,14 @@ const AppProvider = ({ children }: ProviderProps) => {
   const [favorites, setFavorites] = useState<any[]>([])
 
   const addToFavorites = (item: any) => {
-    const newFavorites = favorites.includes(item)
-      ? [...favorites]
-      : [...favorites, item]
+    if (favorites) {
+      const newFavorites = favorites?.includes(item)
+        ? [...favorites]
+        : [...favorites, item]
 
-    setFavorites(newFavorites)
-    saveToLocalStorage(newFavorites)
+      setFavorites(newFavorites)
+      saveToLocalStorage(newFavorites)
+    }
   }
   const removeFavorite = (item: Movie) => {
     const newFavorites = favorites.filter((fav) => fav.id !== item.id)

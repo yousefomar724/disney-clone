@@ -33,7 +33,7 @@ const MoviesCollection = ({ movies, title }: Props) => {
             data={movie}
             route="movie"
             icon={
-              favorites?.some((m) => m.id === movie.id) ? (
+              favorites?.some((m) => m?.id === movie.id) ? (
                 <ThumbanilCheck />
               ) : (
                 <ThumbnailAdd item={movie} />

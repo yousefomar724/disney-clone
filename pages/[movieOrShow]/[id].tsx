@@ -194,7 +194,7 @@ const Details = ({
                     ? `${overview.slice(0, 400)}...`
                     : overview}
                 </h4>
-                <CastList casts={credit?.cast} />
+                {credit.cast.length > 1 && <CastList casts={credit?.cast} />}
               </div>
               <div className="rounded-xl z-[14] hidden lg:flex hover:shadow-xl hover:scale-[1.01] transition duration-20 cursor-pointer">
                 <Image
@@ -221,8 +221,15 @@ const Details = ({
             />
           </section>
           <VidList vids={vids} />
-          <MoviesCollection movies={similar} title={'Similar'} />
-          <MoviesCollection movies={similar} title={'Recommendations'} />
+          {similar.length > 1 && (
+            <MoviesCollection movies={similar} title={'Similar'} />
+          )}
+          {recommendations.length > 1 && (
+            <MoviesCollection
+              movies={recommendations}
+              title={'Recommendations'}
+            />
+          )}
           <Footer />
         </>
       )}

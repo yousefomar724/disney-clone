@@ -1,4 +1,3 @@
-import { CheckCircleIcon, PlusCircleIcon } from '@heroicons/react/solid'
 import { GetServerSideProps } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
@@ -137,10 +136,10 @@ const Movies = ({ movies }: { movies: Movie[][] }) => {
                   data={selectedMovie}
                   route="movie"
                   icon={
-                    favorites.some((m) => m.id === selectedMovie.id) ? (
+                    favorites?.some((m) => m?.id === selectedMovie.id) ? (
                       <ThumbanilCheck />
                     ) : (
-                      <ThumbnailAdd movie={selectedMovie} />
+                      <ThumbnailAdd item={selectedMovie} />
                     )
                   }
                 />

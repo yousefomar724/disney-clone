@@ -119,10 +119,10 @@ const Shows = ({ shows }: { shows: Show[][] }) => {
                   data={selectedShow}
                   route="tv"
                   icon={
-                    favorites.some((m) => m.id === selectedShow.id) ? (
+                    favorites?.some((m) => m?.id === selectedShow.id) ? (
                       <ThumbanilCheck />
                     ) : (
-                      <ThumbnailAdd movie={selectedShow} />
+                      <ThumbnailAdd item={selectedShow} />
                     )
                   }
                 />

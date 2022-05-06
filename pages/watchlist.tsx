@@ -21,11 +21,11 @@ const Profile = () => {
   const { favorites, removeFavorite, setFavorites } = useGlobalContext()
   const uniqueIds: number[] = []
 
-  const filteredFavorites = favorites.filter((element) => {
-    const isDuplicate = uniqueIds.includes(element.id)
+  const filteredFavorites = favorites?.filter((element) => {
+    const isDuplicate = uniqueIds.includes(element?.id)
 
     if (!isDuplicate) {
-      uniqueIds.push(element.id)
+      uniqueIds.push(element?.id)
       return true
     }
 
@@ -65,11 +65,11 @@ const Profile = () => {
           {filteredFavorites?.map((item: any) => {
             return (
               <Thumbnail
-                key={item.id}
-                data={item}
+                key={item?.id}
+                data={item ? item : {}}
                 route="movie"
                 removeFavorite={removeFavorite}
-                icon={<ThumbnailRemove movie={item} />}
+                icon={<ThumbnailRemove movie={item!} />}
               />
             )
           })}

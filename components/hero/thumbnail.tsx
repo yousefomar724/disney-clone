@@ -1,10 +1,16 @@
 import { StarIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Movie } from '../../types'
 
-const Thumbnail = (props: any) => {
+interface Props {
+  data: Movie
+  route: string
+  icon: React.ReactNode
+  removeFavorite?: (item: Movie) => void
+}
+const Thumbnail = (props: Props) => {
   const { data, route, icon: ThumbnailIcon } = props
-
   const { poster_path, backdrop_path, id, title, vote_average, name } = data
 
   const BASE_URL = 'https://image.tmdb.org/t/p/original'
@@ -32,8 +38,8 @@ const Thumbnail = (props: any) => {
       </Link>
       <div className=" flex flex-col justify-between h-[100%] p-2">
         <h3 className="text-xl font-bold">
-          {movieTitle.length > 25
-            ? `${movieTitle.slice(0, 25)}...`
+          {movieTitle?.length! > 25
+            ? `${movieTitle?.slice(0, 25)}...`
             : movieTitle}
         </h3>
         <div className="flex justify-self-end justify-between items-center gap-2 bg-red">

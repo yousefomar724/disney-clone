@@ -4,6 +4,7 @@ import { Movie } from '../../types'
 
 const ThumbnailRemove = ({ movie }: { movie: Movie }) => {
   const { removeFavorite } = useGlobalContext()
+  const favMovie = movie ? movie : {}
   return (
     <span title="Remove from watchlist">
       <XCircleIcon

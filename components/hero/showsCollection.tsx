@@ -32,7 +32,7 @@ const ShowsCollection = ({ shows, title }: Props) => {
             data={show}
             route="tv"
             icon={
-              favorites?.some((m) => m.id === show.id) ? (
+              favorites?.some((m) => m?.id === show.id) ? (
                 <ThumbanilCheck />
               ) : (
                 <ThumbnailAdd item={show} />
