@@ -95,7 +95,6 @@ const Search = () => {
       router.push('/')
     }
   }, [session])
-  console.log(results)
   return (
     <>
       <Head>

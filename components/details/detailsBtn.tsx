@@ -7,7 +7,7 @@ const DetailsBtn = ({
 }) => {
   return (
     <div
-      className="rounded-full border-2 border-white flex items-center justify-center w-8 h-8 cursor-pointer bg:black/60"
+      className="rounded-full border-2 outline-none border-white flex items-center justify-center w-8 h-8 cursor-pointer bg:black/60"
       title={title}
     >
       {children}

@@ -11,7 +11,7 @@ module.exports = {
       }),
     },
     fontFamily: {
-      body: ['Montserrat', 'sans-serif'],
+      body: ['Poppins', 'sans-serif'],
     },
   },
   plugins: [require('tailwind-scrollbar-hide')],

@@ -3,7 +3,7 @@ import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import CastList from '../../components/details/castList'
 import DetailsBtn from '../../components/details/detailsBtn'
 import PlayBtn from '../../components/details/playBtn'
@@ -94,6 +94,7 @@ const Details = ({
   const [showTrailer, setShowTrailer] = useState(false)
   const { data: session } = useSession()
   const router = useRouter()
+  const dialogRef = useRef<any>(null)
   useEffect(() => {
     if (!session) {
       router.push('/')
@@ -113,6 +114,8 @@ const Details = ({
     videos,
     original_name,
     status,
+    name,
+    homepage,
   } = details
   const BASE_URL_original = 'https://image.tmdb.org/t/p/original'
   const BASE_URL_w500 = 'https://image.tmdb.org/t/p/w500'
@@ -147,10 +150,10 @@ const Details = ({
             <div className="flex flex-row-reverse justify-center items-center h-screen max-w-4xl max-h-[80%] mx-auto gap-5 absolute inset-y-28 md:inset-y-auto md:px-4 md:bottom-10 inset-x-4 md:inset-x-12 z-[14]">
               <div className="flex flex-col gap-2 md:gap-4 z-[14] max-h-screen">
                 <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2">
-                  {title || original_title || original_name}
+                  {title || name || original_title || original_name}
                 </h1>
                 <div className="hidden sm:flex items-center space-x-3 md:space-x-5">
-                  <PlayBtn />
+                  <PlayBtn url={homepage} />
                   <TrailerBtn setShowTrailer={setShowTrailer} />
                   <DetailsBtn title="Add Review">
                     {favorites?.some((m) => m.id === details.id) ? (
@@ -159,16 +162,62 @@ const Details = ({
                       <ThumbnailAdd item={details} />
                     )}
                   </DetailsBtn>
-                  <DetailsBtn title="Reviews">
+                  {/* <DetailsBtn title="Reviews">
                     <img src="/images/group-icon.svg" alt="group" />
-                  </DetailsBtn>
+                  </DetailsBtn> */}
+                  <button
+                    className="rounded-full border-2 outline-none border-white flex items-center justify-center w-8 h-8 cursor-pointer bg:black/60"
+                    title="Add review"
+                    onClick={() => dialogRef.current.showModal()}
+                  >
+                    <img src="/images/group-icon.svg" alt="group" />
+                  </button>
+                  <dialog
+                    className="max-w-[800px] mx-auto  backdrop-blur-md"
+                    ref={dialogRef}
+                  >
+                    <div className="relative max-w-[800px] max-h-[80vh] rounded-md bg-white overflow-auto cursor-default">
+                      <header className="flex items-center justify-between bg-[#efefef]">
+                        Header
+                        <button
+                          className="text-2xl"
+                          onClick={() => dialogRef?.current?.close()}
+                        >
+                          ✕
+                        </button>
+                      </header>
+                      <section>
+                        <p>
+                          <strong>
+                            Press ✕, ESC, or click outside of the modal to close
+                            it
+                          </strong>
+                        </p>
+                        <p className="mt-2">
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Quo repellendus reprehenderit accusamus totam
+                          ratione! Nesciunt, nemo dolorum recusandae ad ex nam
+                          similique dolorem ab perspiciatis qui. Facere,
+                          dignissimos. Nemo, ea.
+                        </p>
+                        <p className="mt-2">
+                          Nullam vitae enim vel diam elementum tincidunt a eget
+                          metus. Curabitur finibus vestibulum rutrum. Vestibulum
+                          semper tellus vitae tortor condimentum porta. Sed id
+                          ex arcu. Vestibulum eleifend tortor non purus porta
+                          dapibus
+                        </p>
+                      </section>
+                      <footer className="bg-white">Footer</footer>
+                    </div>
+                  </dialog>
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex flex-wrap items-center gap-1">
                   {genres &&
                     genres.map((genre: { name: string }, index) => {
                       return (
                         <span
-                          className="py-1 px-4 rounded-3xl border-2 text-sm cursor-pointer border-gray-300"
+                          className="py-[0.2rem] px-2 rounded-3xl border-2 text-sm cursor-pointer border-gray-300"
                           key={index}
                         >
                           {genre.name}

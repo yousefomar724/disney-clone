@@ -49,7 +49,7 @@ const Profile = () => {
   return (
     <>
       <Head>
-        <title>{session?.user?.name}</title>
+        <title>{session?.user?.name} watchlist</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />

@@ -1,3 +1,5 @@
+import { Url } from 'url'
+
 export type Show = {
   adult: boolean
   backdrop_path: null | string
@@ -43,6 +45,7 @@ export type Movie = {
   original_name?: string
   status?: string
   name?: string
+  homepage: Url
 }
 
 export type User = {
