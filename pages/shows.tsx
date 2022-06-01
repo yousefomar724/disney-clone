@@ -12,8 +12,8 @@ import { useGlobalContext } from '../context'
 import data from '../data/data'
 import { Show } from '../types'
 
-const defaultShows = (cat: string, page: number) => {
-  return `https://api.themoviedb.org/3/tv/${cat}?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=${page}`
+const defaultShows = (category: string, page: number) => {
+  return `https://api.themoviedb.org/3/tv/${category}?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=${page}`
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context)
@@ -44,6 +44,7 @@ const Shows = ({ shows }: { shows: Show[][] }) => {
     showsData: { tabs },
   } = data
 
+  // Handle load more btn with tabs
   useEffect(() => {
     const request = async () => {
       if (page > 1) {
@@ -69,10 +70,7 @@ const Shows = ({ shows }: { shows: Show[][] }) => {
     request()
   }, [page])
 
-  const loadMore = () => {
-    setPage(page + 1)
-  }
-
+  // Handle Favorite Shows
   const { favorites, setFavorites } = useGlobalContext()
   useEffect(() => {
     const ac = new AbortController()
@@ -80,6 +78,8 @@ const Shows = ({ shows }: { shows: Show[][] }) => {
     setFavorites(previouslyFav || [])
     return () => ac.abort()
   }, [])
+
+  // Return Home if not Authenticated
   const { data: session } = useSession()
   const router = useRouter()
   useEffect(() => {
@@ -87,6 +87,7 @@ const Shows = ({ shows }: { shows: Show[][] }) => {
       router.push('/')
     }
   }, [session])
+
   return (
     <>
       <Head>
@@ -131,7 +132,7 @@ const Shows = ({ shows }: { shows: Show[][] }) => {
           </div>
           {page < 16 && (
             <button
-              onClick={loadMore}
+              onClick={() => setPage(page + 1)}
               className="justify-center md:text-base w-fit mx-auto mt-8 bg-[#f9f9f9] text-black flex items-center py-2 px-5 rounded-full hover:bg-[#c6c6c6] font-bold"
             >
               Load More

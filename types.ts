@@ -1,4 +1,4 @@
-import { Url } from 'url'
+import { UrlObject } from 'url'
 
 export type Show = {
   adult: boolean
@@ -45,7 +45,7 @@ export type Movie = {
   original_name?: string
   status?: string
   name?: string
-  homepage: Url
+  homepage?: UrlObject | string
 }
 
 export type User = {

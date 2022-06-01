@@ -153,7 +153,7 @@ const Details = ({
                   {title || name || original_title || original_name}
                 </h1>
                 <div className="hidden sm:flex items-center space-x-3 md:space-x-5">
-                  <PlayBtn url={homepage} />
+                  <PlayBtn url={homepage ? homepage : '/'} />
                   <TrailerBtn setShowTrailer={setShowTrailer} />
                   <DetailsBtn title="Add Review">
                     {favorites?.some((m) => m.id === details.id) ? (
@@ -162,6 +162,7 @@ const Details = ({
                       <ThumbnailAdd item={details} />
                     )}
                   </DetailsBtn>
+                  {/* preview reviews */}
                   {/* <DetailsBtn title="Reviews">
                     <img src="/images/group-icon.svg" alt="group" />
                   </DetailsBtn> */}
