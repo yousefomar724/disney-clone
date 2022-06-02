@@ -17,7 +17,8 @@ import ThumbnailAdd from '../../components/hero/thumbnailAdd'
 import Header from '../../components/topbar/header'
 import Welcome from '../../components/welcome/welcome'
 import { useGlobalContext } from '../../context'
-import { Movie } from '../../types'
+import { Movie, Result, Reviews } from '../../types'
+import reviewImg from '../../public/images/default.png'
 
 const defaultExtras = (
   type: string | string[] | undefined,
@@ -79,7 +80,7 @@ interface Props {
   }[]
   similar: any
   recommendations: any
-  reviews: any
+  reviews: Result[]
 }
 
 const Details = ({
@@ -90,6 +91,7 @@ const Details = ({
   recommendations,
   reviews,
 }: Props) => {
+  console.log(reviews)
   const { favorites } = useGlobalContext()
   const [showTrailer, setShowTrailer] = useState(false)
   const { data: session } = useSession()
@@ -155,17 +157,13 @@ const Details = ({
                 <div className="hidden sm:flex items-center space-x-3 md:space-x-5">
                   <PlayBtn url={homepage ? homepage : '/'} />
                   <TrailerBtn setShowTrailer={setShowTrailer} />
-                  <DetailsBtn title="Add Review">
+                  <DetailsBtn title="Reviews">
                     {favorites?.some((m) => m.id === details.id) ? (
                       <ThumbanilCheck />
                     ) : (
                       <ThumbnailAdd item={details} />
                     )}
                   </DetailsBtn>
-                  {/* preview reviews */}
-                  {/* <DetailsBtn title="Reviews">
-                    <img src="/images/group-icon.svg" alt="group" />
-                  </DetailsBtn> */}
                   <button
                     className="rounded-full border-2 outline-none border-white flex items-center justify-center w-8 h-8 cursor-pointer bg:black/60"
                     title="Add review"
@@ -173,13 +171,10 @@ const Details = ({
                   >
                     <img src="/images/group-icon.svg" alt="group" />
                   </button>
-                  <dialog
-                    className="max-w-[800px] mx-auto  backdrop-blur-md"
-                    ref={dialogRef}
-                  >
-                    <div className="relative max-w-[800px] max-h-[80vh] rounded-md bg-white overflow-auto cursor-default">
-                      <header className="flex items-center justify-between bg-[#efefef]">
-                        Header
+                  <dialog className="w-full rounded-2xl" ref={dialogRef}>
+                    <div className="bg-white mb-4">
+                      <header className="flex items-center justify-between px-4 py-2 mb-6 font-bold bg-[#efefef]">
+                        {title || name || original_title || original_name}
                         <button
                           className="text-2xl"
                           onClick={() => dialogRef?.current?.close()}
@@ -187,29 +182,65 @@ const Details = ({
                           ✕
                         </button>
                       </header>
-                      <section>
-                        <p>
-                          <strong>
-                            Press ✕, ESC, or click outside of the modal to close
-                            it
-                          </strong>
-                        </p>
-                        <p className="mt-2">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Quo repellendus reprehenderit accusamus totam
-                          ratione! Nesciunt, nemo dolorum recusandae ad ex nam
-                          similique dolorem ab perspiciatis qui. Facere,
-                          dignissimos. Nemo, ea.
-                        </p>
-                        <p className="mt-2">
-                          Nullam vitae enim vel diam elementum tincidunt a eget
-                          metus. Curabitur finibus vestibulum rutrum. Vestibulum
-                          semper tellus vitae tortor condimentum porta. Sed id
-                          ex arcu. Vestibulum eleifend tortor non purus porta
-                          dapibus
-                        </p>
+                      <section className="flex flex-col gap-6 px-4">
+                        {reviews.length > 0 ? (
+                          reviews.map((review, index) => {
+                            const {
+                              author_details: {
+                                name,
+                                avatar_path,
+                                rating,
+                                username,
+                              },
+                              content,
+                            } = review
+                            const BASE_URL_w500 =
+                              'https://image.tmdb.org/t/p/w500'
+                            const BASE_URL_original =
+                              'https://image.tmdb.org/t/p/original'
+                            const w500Src = `${BASE_URL_w500}${avatar_path}`
+                            const originalSrc = `${BASE_URL_original}${avatar_path}`
+                            return (
+                              <div
+                                className="flex content-center flex-col gap-4"
+                                key={index}
+                              >
+                                <div className="flex gap-2">
+                                  <img
+                                    className="w-10 h-10 rounded-full object-cover"
+                                    src={
+                                      w500Src || originalSrc
+                                        ? `/images/default.png`
+                                        : w500Src
+                                    }
+                                    alt={name}
+                                  />
+                                  <div className="flex flex-col">
+                                    <h6 className="font-bold">
+                                      {name ? name : 'Unknown'}
+                                    </h6>
+                                    <span className="font-thin text-xs">
+                                      @{username}
+                                    </span>
+                                  </div>
+                                  <span className="flex items-center gap-1 text-xs ml-auto">
+                                    Rating:
+                                    <span className="font-bold text-sm">
+                                      {rating ? rating : 5}
+                                    </span>
+                                  </span>
+                                </div>
+
+                                <p className="">{content}</p>
+                              </div>
+                            )
+                          })
+                        ) : (
+                          <h2 className="text-center text-xl font-bold">
+                            No Reviews Found :/
+                          </h2>
+                        )}
                       </section>
-                      <footer className="bg-white">Footer</footer>
                     </div>
                   </dialog>
                 </div>

@@ -19,6 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const Profile = () => {
   const { favorites, removeFavorite, setFavorites } = useGlobalContext()
+
   const uniqueIds: number[] = []
 
   const filteredFavorites = favorites?.filter((element) => {
