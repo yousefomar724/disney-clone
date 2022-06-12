@@ -12,8 +12,10 @@ import { useGlobalContext } from '../context'
 import data from '../data/data'
 import { Show } from '../types'
 
+const moviesApiKey = `${process.env.MOVIES_API_KEY!}`
+
 const defaultShows = (category: string, page: number) => {
-  return `https://api.themoviedb.org/3/tv/${category}?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=${page}`
+  return `https://api.themoviedb.org/3/tv/${category}?api_key=${moviesApiKey}&language=en-US&page=${page}`
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context)

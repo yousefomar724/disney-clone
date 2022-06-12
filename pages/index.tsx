@@ -12,6 +12,8 @@ import { Movie, Show } from '../types'
 import Main from '../components/main'
 import Footer from '../components/footer'
 
+const moviesApiKey = `${process.env.MOVIES_API_KEY!}`
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context)
   const [
@@ -22,19 +24,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     topRatedShowsRes,
   ] = await Promise.all([
     fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/popular?api_key=${moviesApiKey}&language=en-US&page=1`
     ),
     fetch(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=1&append_to_response=videos`
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${moviesApiKey}&language=en-US&page=1&append_to_response=videos`
     ),
     fetch(
-      `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/tv/popular?api_key=${moviesApiKey}&language=en-US&page=1`
     ),
     fetch(
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/top_rated?api_key=${moviesApiKey}&language=en-US&page=1`
     ),
     fetch(
-      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/tv/top_rated?api_key=${moviesApiKey}&language=en-US&page=1`
     ),
   ])
   const [

@@ -25,7 +25,7 @@ const Search = () => {
   const router = useRouter()
   const searchEndPoint =
     `https://api.themoviedb.org/3/search/multi?api_key=` +
-    process.env.MOVIES_API_KEY
+    `${process.env.MOVIES_API_KEY}`
 
   // Input Focus
   const inputRef = useRef<HTMLInputElement>(null)

@@ -5,8 +5,8 @@ import NextAuth, { NextAuthOptions } from 'next-auth'
 export default NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID!,
-      clientSecret: process.env.GOOGLE_SECRET!,
+      clientId: `${process.env.GOOGLE_ID!}`,
+      clientSecret: `${process.env.GOOGLE_SECRET!}`,
       authorization: {
         params: {
           prompt: 'consent',
@@ -16,15 +16,15 @@ export default NextAuth({
       },
     }),
     TwitterProvider({
-      clientId: process.env.TWITTER_CLIENT_ID!,
-      clientSecret: process.env.TWITTER_CLIENT_SECRET!,
+      clientId: `${process.env.TWITTER_CLIENT_ID!}`,
+      clientSecret: `${process.env.TWITTER_CLIENT_SECRET!}`,
       version: '2.0',
     }),
   ],
   jwt: {
     encryption: true,
   } as unknown as NextAuthOptions,
-  secret: process.env.NEXTAUTH_SECRET!,
+  secret: `${process.env.NEXTAUTH_SECRET!}`,
   callbacks: {
     async jwt({ token, account }) {
       if (account?.accessToken) {

@@ -18,14 +18,15 @@ import Header from '../../components/topbar/header'
 import Welcome from '../../components/welcome/welcome'
 import { useGlobalContext } from '../../context'
 import { Movie, Result, Reviews } from '../../types'
-import reviewImg from '../../public/images/default.png'
+
+const moviesApiKey = `${process.env.MOVIES_API_KEY!}`
 
 const defaultExtras = (
   type: string | string[] | undefined,
   id: string | string[] | undefined,
   extra: string
 ) => {
-  return `https://api.themoviedb.org/3/${type}/${id}/${extra}?api_key=${process.env.MOVIES_API_KEY}&language=en-US`
+  return `https://api.themoviedb.org/3/${type}/${id}/${extra}?api_key=${moviesApiKey}&language=en-US`
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id, movieOrShow } = context.query
@@ -59,12 +60,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     ])
   return {
     props: {
-      details,
-      credit,
-      vids: vids.results,
-      similar: similar.results,
-      recommendations: recommendations.results,
-      reviews: reviews.results,
+      details: details || null,
+      credit: credit || null,
+      vids: vids.results || null,
+      similar: similar.results || null,
+      recommendations: recommendations.results || null,
+      reviews: reviews.results || null,
       session,
     },
   }
@@ -91,7 +92,6 @@ const Details = ({
   recommendations,
   reviews,
 }: Props) => {
-  console.log(reviews)
   const { favorites } = useGlobalContext()
   const [showTrailer, setShowTrailer] = useState(false)
   const { data: session } = useSession()
